@@ -24,12 +24,11 @@
             </div>
 
             <div class="space-x-6 font-bold">
-                <a href="#">My Calendar</a>
-                <a href="#">Friends Calendar</a>
+                <a href="/">My Calendar</a>
+                <a href="/friend">Friends Calendar</a>
             </div>
             @auth
                 <div class="space-x-6 font-bold flex">
-                    <a href="/jobs/create">Post a Job</a>
                     <form method = "POST" action="/logout">
                         @csrf
                         @method('DELETE')

@@ -5,8 +5,13 @@
         </section>
 
         <section class="pt-10">
-            <x-section-heading>Your Calendar</x-section-heading>
-            <x-layout-app/>
+            
+            @auth
+            <x-layout-app/>    
+            @endauth
+            @guest
+            <x-section-heading>Login to Continue</x-section-heading>
+            @endguest
             <div class="grid lg:grid-cols-3 gap-8 mt-6">
                 
 
