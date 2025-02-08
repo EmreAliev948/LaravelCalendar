@@ -11,13 +11,12 @@ class FriendController extends Controller
 {
     public function index(){
         $friends = User::select(['id', 'name'])->get();
-        return view('friend', ['friends' => $friends]);
-
+        return view('components.friend.friend', ['friends' => $friends]);
     }
 
     public function showCalendar(User $user)
     {
-        return view('friends', ['user' => $user]);
+        return view('components.friend.friends', ['user' => $user]);
     }
 
     public function create(Request $request)
@@ -34,7 +33,7 @@ class FriendController extends Controller
     }
 
 
-    public function getEvents($userId)  // Remove optional parameter
+    public function getEvents($userId)
     {
         $schedules = Schedule::where('user_id', $userId)->get();
         $events = $schedules->map(function($schedule) {
@@ -44,7 +43,8 @@ class FriendController extends Controller
                 'start' => Carbon::parse($schedule->start)->format('Y-m-d H:i:s'),
                 'end' => Carbon::parse($schedule->end)->format('Y-m-d H:i:s'),
                 'color' => $schedule->color ?? '#3788d8',
-                'allDay' => false
+                'allDay' => false,
+                'created_by' => $schedule->created_by
             ];
         })->toArray();
         return response()->json($events);
@@ -54,6 +54,7 @@ class FriendController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $schedule->delete();
+        return response()->json(['success' => true]);
     }
 
     public function update(Request $request, $id)
@@ -84,7 +85,7 @@ class FriendController extends Controller
 
     public function addSchedule(User $user)
     {
-        return view('schedule.friend-add', ['friend' => $user]);
+        return view('components.friend.friend-add', ['friend' => $user]);
     }
 
     public function createSchedule(Request $request, User $user)

@@ -23,24 +23,43 @@
                     eventContent: function(info) {
                         var eventTitle = info.event.title;
                         var eventElement = document.createElement('div');
-                        eventElement.innerHTML = '<span style="cursor: pointer;">❌</span> ' + eventTitle;
+                        
+                        // Always show delete button
+                        var deleteButton = '<span style="cursor: pointer;" class="delete-event">❌</span> ';
+                        eventElement.innerHTML = deleteButton + eventTitle;
 
-                        eventElement.querySelector('span').addEventListener('click', function() {
+                        eventElement.querySelector('.delete-event').addEventListener('click', function(e) {
+                            e.preventDefault();
                             if (confirm("Are you sure you want to delete this event?")) {
                                 var eventId = info.event.id;
                                 fetch(`/friend/${eventId}/delete`, {
                                     method: 'DELETE',
                                     headers: {
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json'
+                                    },
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.success) {
+                                        info.event.remove();
+                                    } else {
+                                        alert('Could not delete event');
                                     }
                                 })
-                                .then(response => response.json())
-                                .then(data => {
-                                    calendar.refetchEvents();
-                                })
-                                .catch(error => console.error('Error:', error));
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('Error deleting event');
+                                });
                             }
                         });
+                        
                         return { domNodes: [eventElement] };
                     },
                     headerToolbar: {

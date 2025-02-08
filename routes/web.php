@@ -30,10 +30,10 @@ Route::delete('/logout', action: [SessionController::class, 'destroy']);
 
 //Friend Routes
 Route::middleware('auth')->group(function () {
-Route::get('/friend', [FriendController::class, 'index'])->name('friend.index');
-Route::get('/friend/{user}/calendar', [FriendController::class, 'showCalendar'])->name('friend.calendar');
-Route::get('/friend/{user}/add-schedule', [FriendController::class, 'addSchedule'])->name('friend.add-schedule');
-Route::post('/friend/{user}/create-schedule', [FriendController::class, 'createSchedule'])->name('friend.create-schedule');
-Route::delete('/friend/{schedule}/delete', [FriendController::class, 'deleteEvent'])->name('friend.delete-event');
-Route::get('/friend/{user}/events', [FriendController::class, 'getEvents'])->name('friend.events');
+    Route::get('/friend', [FriendController::class, 'index'])->name('friend.index');
+    Route::get('/friend/{user}/calendar', [FriendController::class, 'showCalendar'])->name('friend.calendar');
+    Route::get('/friend/{user}/add-schedule', [FriendController::class, 'addSchedule'])->name('friend.add-schedule');
+    Route::post('/friend/{user}/create-schedule', [FriendController::class, 'createSchedule'])->name('friend.create-schedule');
+    Route::delete('/friend/{schedule}/delete', [FriendController::class, 'deleteEvent'])->name('friend.delete-event');
+    Route::get('/friend/{user}/events', [FriendController::class, 'getEvents'])->name('friend.events');
 });
