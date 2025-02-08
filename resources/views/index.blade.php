@@ -10,7 +10,7 @@
             <x-layout-app/>    
             @endauth
             @guest
-            <x-section-heading>Login to Continue</x-section-heading>
+            <x-guest.hero></x-guest.hero>
             @endguest
             <div class="grid lg:grid-cols-3 gap-8 mt-6">
                 

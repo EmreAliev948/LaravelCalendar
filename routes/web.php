@@ -10,10 +10,13 @@ Route::get('/', function () {
 });
 //Routes for the guest user
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [RegisterUserController::class, 'create']);
+    Route::get('/register', [RegisterUserController::class, 'create'])->name('register');
     Route::post('/register', [RegisterUserController::class, 'store']);
-    Route::get('/login', [SessionController::class, 'create']);
+    Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/login', [SessionController::class, 'store']);
+    Route::get('/about', function() {
+        return view('about');
+    })->name('about');
 });
 //Schedule Routes for the logged in user
 Route::middleware('auth')->group(function () {
