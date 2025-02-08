@@ -20,8 +20,22 @@ export default {
             },
             fontSize:{
                 "2xs":".625rem"
-            }
-        },
+            },
+            darkMode: 'class',
+                theme: {
+                    extend: {
+                        colors: {
+                            dark: {
+                                100: '#1a1a1a',
+                                200: '#2c2c2c',
+                                300: '#333333',
+                                400: '#444444',
+                            },
+                        },
+                    },
+                },
+            },
+        
     },
     plugins: [],
 };
