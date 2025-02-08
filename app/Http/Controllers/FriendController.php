@@ -64,6 +64,8 @@ class FriendController extends Controller
             'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
             'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
         ]);
+        
+        return response()->json(['success' => true]);
     }
 
     public function resize(Request $request, $id)
@@ -71,6 +73,8 @@ class FriendController extends Controller
         $schedule = Schedule::findOrFail($id);
         $newEndDate = Carbon::parse($request->input('end_date'))->setTimezone('UTC');
         $schedule->update(['end' => $newEndDate]);
+        
+        return response()->json(['success' => true]);
     }
 
     public function search(Request $request)

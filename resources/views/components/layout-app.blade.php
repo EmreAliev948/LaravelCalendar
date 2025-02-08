@@ -21,6 +21,7 @@
                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
                     },
                     initialView: 'dayGridMonth',
+                    firstDay: 1,
                     timeZone: 'UTC',
                     events: '/events',
                     editable: true,
