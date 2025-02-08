@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Schedule; // Fix the import
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -30,18 +30,13 @@ class FriendController extends Controller
         $item->description = $request->description;
         $item->color = $request->color;
         $item->save();
-
         return redirect('/');
     }
 
 
     public function getEvents($userId)  // Remove optional parameter
     {
-        \Log::info('Getting events for user: ' . $userId);
-        
         $schedules = Schedule::where('user_id', $userId)->get();
-        \Log::info('Found schedules: ' . $schedules->count());
-
         $events = $schedules->map(function($schedule) {
             return [
                 'id' => $schedule->id,
@@ -52,8 +47,6 @@ class FriendController extends Controller
                 'allDay' => false
             ];
         })->toArray();
-        
-        \Log::info('Returning events: ' . json_encode($events));
         return response()->json($events);
     }
 
@@ -61,40 +54,59 @@ class FriendController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $schedule->delete();
-
-        return response()->json(['message' => 'Event deleted successfully']);
     }
 
     public function update(Request $request, $id)
     {
         $schedule = Schedule::findOrFail($id);
-
         $schedule->update([
             'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
             'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
         ]);
-
-        return response()->json(['message' => 'Event moved successfully']);
     }
 
     public function resize(Request $request, $id)
     {
         $schedule = Schedule::findOrFail($id);
-
         $newEndDate = Carbon::parse($request->input('end_date'))->setTimezone('UTC');
         $schedule->update(['end' => $newEndDate]);
-
-        return response()->json(['message' => 'Event resized successfully.']);
     }
 
     public function search(Request $request)
     {
         $searchKeywords = $request->input('title');
-
         $matchingEvents = Schedule::where('user_id', auth()->id())
             ->where('title', 'like', '%' . $searchKeywords . '%')
             ->get();
 
         return response()->json($matchingEvents);
+    }
+
+    public function addSchedule(User $user)
+    {
+        return view('schedule.friend-add', ['friend' => $user]);
+    }
+
+    public function createSchedule(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'title' => 'required',
+            'start' => 'required|date',
+            'end' => 'required|date|after_or_equal:start',
+            'description' => 'nullable',
+            'color' => 'nullable'
+        ]);
+
+        $schedule = new Schedule();
+        $schedule->user_id = $user->id;
+        $schedule->created_by = auth()->id();
+        $schedule->title = $validated['title'];
+        $schedule->start = $validated['start'];
+        $schedule->end = $validated['end'];
+        $schedule->description = $validated['description'];
+        $schedule->color = $validated['color'];
+        $schedule->save();
+
+        return redirect()->route('friend.calendar', $user->id);
     }
 }
