@@ -24,6 +24,7 @@ Route::post('/schedule/{id}/resize', [ScheduleController::class, 'resize']);
 Route::get('/events/search', [ScheduleController::class, 'search']);
 Route::view('add-schedule', 'schedule.add');
 Route::post('create-schedule', [ScheduleController::class, 'create']);
+Route::get('/friend/{user}/events', [FriendController::class, 'getEvents'])->name('friend.events');
 Route::delete('/logout', action: [SessionController::class, 'destroy']);
 });
 Route::get('/friend', [FriendController::class, 'index'])->name('friend.index');
