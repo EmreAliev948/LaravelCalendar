@@ -78,4 +78,21 @@ class ScheduleController extends Controller
 
         return response()->json($matchingEvents);
     }
+
+    public function info($id)
+    {
+        $event = Schedule::with(['creator', 'owner'])->findOrFail($id);
+        return response()->json([
+            'title' => $event->title,
+            'description' => $event->description,
+            'start_date' => $event->start,
+            'end_date' => $event->end,
+            'color' => $event->color,
+            'created_at' => $event->created_at->format('F j, Y g:i A'),
+            'updated_at' => $event->updated_at->format('F j, Y g:i A'),
+            'created_by' => $event->creator->name,
+            'owner' => $event->owner->name,
+            'is_owner' => $event->user_id === auth()->id()
+        ]);
+    }
 }

@@ -29,6 +29,8 @@ Route::get('/events/search', [ScheduleController::class, 'search']);
 Route::view('add-schedule', 'components.calendar.add');
 Route::post('create-schedule', [ScheduleController::class, 'create']);
 Route::delete('/logout', action: [SessionController::class, 'destroy']);
+Route::get('/schedule/{id}/info', [ScheduleController::class, 'info']);
+
 });
 
 //Friend Routes
@@ -41,4 +43,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/friend/{user}/events', [FriendController::class, 'getEvents'])->name('friend.events');
     Route::post('/friend/{schedule}/update', [FriendController::class, 'update'])->name('friend.update');
     Route::post('/friend/{schedule}/resize', [FriendController::class, 'resize'])->name('friend.resize');
+    Route::get('/friend/{schedule}/info', [FriendController::class, 'info'])->name('friend.info');
 });
