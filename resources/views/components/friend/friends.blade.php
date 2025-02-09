@@ -1,5 +1,6 @@
 <x-layout>
-        <x-calendar.calendar/>
+        <x-calendar.calendar>{{ URL('/friend/' . $user->id . '/add-schedule') }}</x-calendar.calendar>
+
         <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

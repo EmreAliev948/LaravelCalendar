@@ -20,6 +20,7 @@ class ScheduleController extends Controller
     {
         $item = new Schedule();
         $item->user_id = auth()->id();
+        $item->created_by = auth()->id();
         $item->title = $request->title;
         $item->start = $request->start;
         $item->end = $request->end;

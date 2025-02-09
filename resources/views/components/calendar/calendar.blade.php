@@ -23,7 +23,7 @@
                         class="px-6 py-2 bg-[#2c3e50] hover:bg-[#34495e] text-white rounded-lg transition duration-150 ease-in-out flex items-center border border-[#34495e] hover:border-[#3d566e]">
                         <i class="bx bx-export mr-2"></i> {{__('Export Calendar')}}
                     </button>
-                    <a href="{{ URL('add-schedule') }}"
+                    <a href="{{$slot}}"
                         class="px-6 py-2 bg-[#2c3e50] hover:bg-[#34495e] text-white rounded-lg transition duration-150 ease-in-out flex items-center border border-[#34495e] hover:border-[#3d566e]">
                         <i class="bx bx-plus mr-2"></i> {{__('Add Event')}}
                     </a>

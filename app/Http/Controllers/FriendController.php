@@ -89,7 +89,7 @@ class FriendController extends Controller
 
     public function addSchedule(User $user)
     {
-        return view('components.friend.friend-add', ['friend' => $user]);
+        return view('components.friend.add', ['friend' => $user]);
     }
 
     public function createSchedule(Request $request, User $user)
