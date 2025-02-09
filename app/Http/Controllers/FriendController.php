@@ -40,10 +40,10 @@ class FriendController extends Controller
             return [
                 'id' => $schedule->id,
                 'title' => $schedule->title,
-                'start' => Carbon::parse($schedule->start)->format('Y-m-d H:i:s'),
-                'end' => Carbon::parse($schedule->end)->format('Y-m-d H:i:s'),
+                'start' => Carbon::parse($schedule->start)->format('Y-m-d'),
+                'end' => Carbon::parse($schedule->end)->format('Y-m-d'),
                 'color' => $schedule->color ?? '#3788d8',
-                'allDay' => false,
+                'allDay' => true,
                 'created_by' => $schedule->created_by
             ];
         })->toArray();
@@ -61,8 +61,8 @@ class FriendController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $schedule->update([
-            'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
-            'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
+            'start' => Carbon::parse($request->input('start_date')),
+            'end' => Carbon::parse($request->input('end_date')),
         ]);
         
         return response()->json(['success' => true]);

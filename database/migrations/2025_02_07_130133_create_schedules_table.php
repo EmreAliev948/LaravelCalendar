@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->foreignId('created_by')->constrained('users');
             $table->string('title');
-            $table->date('start');
-            $table->date('end');
+            $table->datetime('start');
+            $table->datetime('end');
             $table->text('description')->nullable();
             $table->string('color')->nullable();
             $table->timestamps();

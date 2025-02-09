@@ -15,6 +15,7 @@
                     firstDay: 1,
                     events: '/friend/{{ $user->id }}/events',
                     editable: true,
+                    timeZone: 'local',
                     eventContent: function(info) {
                         var eventTitle = info.event.title;
                         var eventElement = document.createElement('div');
@@ -67,7 +68,10 @@
                     eventDrop: function(info) {
                         var eventId = info.event.id;
                         var newStartDate = info.event.start;
-                        var newEndDate = info.event.end || newStartDate;
+                        var newEndDate = info.event.end || newStartDate;                        
+                        newStartDate = new Date(newStartDate.getTime() + (24 * 60 * 60 * 1000));
+                        newEndDate = new Date(newEndDate.getTime() + (24 * 60 * 60 * 1000));
+                        
                         var newStartDateUTC = newStartDate.toISOString().slice(0, 10);
                         var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
 
